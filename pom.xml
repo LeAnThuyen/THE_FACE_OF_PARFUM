@@ -8,11 +8,11 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>TANA_EDP_PERUME.example</groupId>
-    <artifactId>TANA_EDP_PERUME</artifactId>
+    <groupId>TANA_EDP_PERFUME.example</groupId>
+    <artifactId>TANA_EDP_PERFUME</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>TANA_EDP_PERUME</name>
-    <description>TANA_EDP_PERUME</description>
+    <name>TANA_EDP_PERFUME</name>
+    <description>TANA_EDP_PERFUME</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -52,8 +52,8 @@
             <version>6.1.5</version>
         </dependency>
         <dependency>
-            <groupId>TANA_EDP_PERUME.example</groupId>
-            <artifactId>TANA_EDP_PERUME</artifactId>
+            <groupId>TANA_EDP_PERFUME.example</groupId>
+            <artifactId>TANA_EDP_PERFUME</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -67,6 +67,42 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-data-rest</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
