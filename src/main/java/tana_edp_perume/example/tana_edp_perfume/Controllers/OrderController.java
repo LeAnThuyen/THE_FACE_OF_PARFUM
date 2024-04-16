@@ -27,7 +27,9 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private ProductRepository _productRepository;
+    @Autowired
     private OrderRepository _orderRepository;
+    @Autowired
     private OrderDetailRepository _orderdetailRepository;
 
 

@@ -85,7 +85,7 @@
 }
 
 .shopping-cart .def-number-input.number-input input[type=number] {
-
+width: 80px;
     border: none;
 }
 

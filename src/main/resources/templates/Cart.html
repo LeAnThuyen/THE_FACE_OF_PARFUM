@@ -95,7 +95,7 @@
                                     <div class="d-flex align-items-center mb-5" th:each="cartItem: ${GioHangView.order_Detail_DTOS}">
                                         <div class="flex-shrink-0">
                                             <img th:src="@{${cartItem.imageUrl}}"
-                                                 class="img-fluid" style="width: 150px;" alt="Generic placeholder image">
+                                                 class="img-fluid" style="width: 150px;" alt="Generic placeholder image" >
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <a href="#!" class="float-end text-black"><i class="fas fa-times"></i></a>
@@ -107,7 +107,7 @@
                                                     <span> <button onclick=""
                                                                    class="minus"></button></span>
 
-                                                    <span><input class="quantity fw-bold text-black" min="0" name="quantity" value="[[${cartItem.Quantity}]]"
+                                                    <span><input class="quantity fw-bold text-black" maxlength="3" pattern="[0-9]{1,5}" min="0" name="quantity" th:value="${cartItem.Quantity}"
                                                                  type="number"></span>
                                                     <span><button onclick=""
                                                                   class="plus"></button></span>
@@ -138,50 +138,50 @@
                                     <form class="mb-5" action="#" th:action="@{/Payment}" th:object="${GioHangView}" method="post">
 
                                         <div class="form-outline mb-5">
-                                            <input type="text" class="form-control form-control-lg" th:field="*{GioHangView.FullName}" id="FullName" siez="17"
+                                            <input type="text" class="form-control form-control-lg" th:field="*{FullName}" id="FullName" size="17"
                                                    value="" minlength="5" maxlength="50" />
-                                            <label class="form-label" for="FullName">FullName</label>
+                                            <label class="form-label" for="FullName">Full Name</label>
                                         </div>
 
                                         <div class="form-outline mb-5">
-                                            <input type="text" th:field="*{GioHangView.PhoneNumber}" id="PhoneNumber" class="form-control form-control-lg" siez="17"
-                                                   value="" minlength="5" maxlength="50"/>
-                                            <label class="form-label" for="PhoneNumber">PhoneNumber</label>
+                                            <input type="text" th:field="*{PhoneNumber}" id="PhoneNumber" class="form-control form-control-lg" size="17"
+                                                   value="" minlength="8" maxlength="12" pattern="[0-9]{1,5}"/>
+                                            <label class="form-label" for="PhoneNumber">Phone Number</label>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-md-4 mb-5">
                                                 <div class="form-outline">
-                                                    <input type="text" th:field="*{GioHangView.Address}" id="Address" class="form-control form-control-lg" value=""
+                                                    <input type="text" th:field="*{Address}" id="Address" class="form-control form-control-lg" value=""
                                                            size="7" minlength="7" maxlength="200" />
                                                     <label class="form-label" for="Address">Address</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-8 mb-5">
                                                 <div class="form-outline">
-                                                    <input type="text" th:field="*{GioHangView.FullAddress}" id="FullAddress" class="form-control form-control-lg" value=""
+                                                    <input type="text" th:field="*{FullAddress}" id="FullAddress" class="form-control form-control-lg" value=""
                                                            size="7" minlength="7" maxlength="200" />
-                                                    <label class="form-label" for="FullAddress">FullAddress</label>
+                                                    <label class="form-label" for="FullAddress">Full Address</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-outline mb-5">
-                                            <input type="text" th:field="*{GioHangView.Code}" id="Code" class="form-control form-control-lg" siez="17"
+                                            <input type="text" th:field="*{Code}" id="Code" class="form-control form-control-lg" size="17"
                                                    value="" minlength="5" maxlength="50" disabled/>
                                             <label class="form-label" for="Code">Code</label>
                                         </div>
                                         <div class="form-outline mb-5">
-                                            <input type="text" th:field="*{GioHangView.ShippingDate}" id="ShippingDate" class="form-control form-control-lg" siez="17"
+                                            <input type="date" th:field="*{ShippingDate}" id="ShippingDate" class="form-control form-control-lg" size="17"
                                                    value="" />
-                                            <label class="form-label" for="ShippingDate">ShippingDate</label>
+                                            <label class="form-label" for="ShippingDate">Shipping Date</label>
                                         </div>
                                         <div class="form-outline mb-5">
-                                            <input type="text" th:field="*{GioHangView.Note}" id="Note" class="form-control form-control-lg" siez="17"
+                                            <input type="text" th:field="*{Note}" id="Note" class="form-control form-control-lg" size="17"
                                                    value="" maxlength="200" />
                                             <label class="form-label" for="Note">Note</label>
                                         </div>
 
-                                        <button type="button" class="btn btn-primary btn-block btn-lg">Buy now</button>
+                                        <button type="button" class="btn btn-primary btn-block btn-lg w-100">Buy now</button>
 
                                         <h5 class="fw-bold mb-5" style="position: absolute; bottom: 0;">
                                             <a href="/"><i class="fas fa-angle-left me-2"></i>Back to shopping</a>

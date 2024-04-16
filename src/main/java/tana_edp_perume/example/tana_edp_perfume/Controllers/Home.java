@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 
+import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.UserSection.User;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderDetailRepository;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderRepository;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.ProductRepository;
@@ -24,8 +25,10 @@ public class Home {
         model.addAttribute("lstProduct",_productRepository.FindAllProduct());
         return  "Home";
     }
-
-
-
-
+    @GetMapping("/Login")
+    public String Login(Model model) {
+        User user = new User();
+        model.addAttribute("UserSignInAndSignUp", user);
+        return "Login";
+    }
 }

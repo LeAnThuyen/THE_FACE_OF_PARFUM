@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import tana_edp_perume.example.tana_edp_perfume.Commons.GenerateCodeWithLength;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.OrderDTO;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.Order_Detail_DTO;
 import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.CartSection.Order;
@@ -25,7 +26,9 @@ import java.util.List;
     public class CartController {
     @Autowired
     private ProductRepository _productRepository;
+    @Autowired
     private OrderRepository _orderRepository;
+    @Autowired
     private OrderDetailRepository _orderdetailRepository;
 
     @GetMapping("/Cart")
@@ -65,7 +68,9 @@ import java.util.List;
             session.setAttribute("GioHangView", lstgioHangCTDTO);
             //tính tong tien
             OrderDTO orderDTO = new OrderDTO();
+            GenerateCodeWithLength generateCodeWithLength = new GenerateCodeWithLength();
             orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
+            orderDTO.setCode(generateCodeWithLength.GenerateCode(12));
             lstgioHangCTDTO.forEach(c -> {
                 orderDTO.setTotalAmount(orderDTO.getTotalAmount()+c.getTotalAmount());
             });
@@ -165,7 +170,9 @@ import java.util.List;
                 session.setAttribute("GioHangView", lstgioHangCTDTO);
                 model.addAttribute("GioHangView",lstgioHangCTDTO);
                 OrderDTO orderDTO = new OrderDTO();
+                GenerateCodeWithLength generateCodeWithLength = new GenerateCodeWithLength();
                 orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
+                orderDTO.setCode(generateCodeWithLength.GenerateCode(12));
                 lstgioHangCTDTO.forEach(c -> {
                     orderDTO.setTotalAmount(orderDTO.getTotalAmount()+c.getTotalAmount());
                 });
@@ -227,7 +234,9 @@ import java.util.List;
             model.addAttribute("GioHangView",lstgioHangCTDTO);
             // tinh tong tien
             OrderDTO orderDTO = new OrderDTO();
+            GenerateCodeWithLength generateCodeWithLength = new GenerateCodeWithLength();
             orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
+            orderDTO.setCode(generateCodeWithLength.GenerateCode(12));
             lstgioHangCTDTO.forEach(c -> {
                 orderDTO.setTotalAmount(orderDTO.getTotalAmount()+c.getTotalAmount());
             });

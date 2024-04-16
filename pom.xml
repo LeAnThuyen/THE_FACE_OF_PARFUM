@@ -90,10 +90,12 @@
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
-
-
-
-
+        <!-- For generating the spring-security-->
+        <dependency>
+            <groupId>com.password4j</groupId>
+            <artifactId>password4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
     </dependencies>
 
     <build>

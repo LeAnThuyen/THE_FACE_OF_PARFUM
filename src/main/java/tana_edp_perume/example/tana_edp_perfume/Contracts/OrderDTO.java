@@ -3,11 +3,12 @@ package tana_edp_perume.example.tana_edp_perfume.Contracts;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
 @Data
-public class OrderDTO {
+public class OrderDTO implements Serializable {
     private long Id;
     private String Address;
     private String FullAddress;
