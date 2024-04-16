@@ -1,10 +1,11 @@
-$(function() {
 
-    "use strict"
 
     var init = "No items yet!";
     var counter = 0;
-
+    function openNav() {
+        document.getElementById("myNav").classList.toggle("menu_width")
+        document.querySelector(".custom_menu-btn").classList.toggle("menu_btn-style")
+    }
     // Initial Cart
     $(".counter").html(init);
 
@@ -34,4 +35,18 @@ $(function() {
             }).dequeue();
         });
     });
-});
+
+    function  AddProductToCart(id){
+        $.ajax({
+
+            type: 'POST',
+            url: `api/v1/addToCart/`+id,
+            contentType: 'text/plain',
+            crossDomain: false,
+            async:true,
+            success:function(response) {
+
+
+            }
+        });
+    }

@@ -83,13 +83,15 @@
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img th:src="@{nuoc-hoa-unisex-louis-vuitton-lv-pacific-chill-edp-100ml-647554979ffaf-30052023084247.webp}" class="d-block w-100" alt="...">
+                    <img th:src="@{nuoc-hoa-unisex-louis-vuitton-lv-pacific-chill-edp-100ml-647554979ffaf-30052023084247.webp}"
+                         class="d-block slider-img" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img th:src="@{louis-vuitton-nước-hoa-california-dream-các-bộ-sưu-tập--LP0175_PM2_Front view.webp}" class="d-block w-100" alt="...">
-                </div>
+                    <img th:src="@{louis-vuitton-nước-hoa-california-dream-các-bộ-sưu-tập--LP0175_PM2_Front view.webp}"
+                         class="d-block slider-img" alt="...">
                 <div class="carousel-item">
-                    <img th:src="@{nuoc-hoa-louis-vuitton-imagination-100ml-2.jpg}" class="d-block w-100" alt="...">
+                    <img th:src="@{nuoc-hoa-louis-vuitton-imagination-100ml-2.jpg}" class="d-block slider-img"
+                         alt="...">
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -101,8 +103,8 @@
             </button>
         </div>
 
+            </div>
         </div>
-
     </section>
     <!-- end slider section -->
 </div>
@@ -118,58 +120,21 @@
         </div>
         <div class="product_container row">
 
-            <div class='product--yellow col-lg-3'>
+            <div class='product--yellow col-lg-4' th:each="prod: ${lstProduct}">
                 <div class='product_inner'>
-                    <img th:src='@{louis-vuitton-nuoc-hoa-au-hasard--LP0054_PM2_Front view.webp}' width='300'>
-                    <p>Nike Air (Women)</p>
-                    <p>Size 7</p>
-                    <p>Price £199.99</p>
-                    <button class="btn-add-to-cart" >Add to basket</button>
+                    <img th:src="@{${prod.Image_Url}}" width='300'>
+                    <p class="product-name" th:text="${prod.name}"></p>
+                    <p class="product-sku">SKU: [[${prod.SKU}]]</p>
+                    <p>Quantity: [[${prod.quantity}]]</p>
+                    <p>Price: [[${#numbers.formatDecimal(prod.price, 0, 'COMMA', 2, 'POINT')}]] VND</p>
+                    <a  th:onclick="'javascript:AddProductToCart(\'' + ${prod.id} + '\');'" class="btn-add-to-cart">Add to basket</a>
                 </div>
                 <div class='product_overlay'>
                     <h2 >Added to basket</h2>
                     <i class="fa-thin fa-cart-shopping"></i>
                 </div>
             </div>
-            <div class='product--orange col-lg-3'>
-                <div class='product_inner'>
-                    <img th:src='@{99bc8eb7b822477c1e33.jpg}' width='300'>
-                    <p>Nike Air (Women)</p>
-                    <p>Size 7</p>
-                    <p>Price £199.99</p>
-                    <button class="btn-add-to-cart" >Add to basket</button>
-                </div>
-                <div class='product_overlay'>
-                    <h2 >Added to basket</h2>
-                    <i class="fa-thin fa-cart-shopping"></i>
-                </div>
-            </div>
-            <div class='product--yellow col-lg-3'>
-                <div class='product_inner'>
-                    <img th:src='@{louis-vuitton-nuoc-hoa-orage--LP0051_PM2_Front view.webp}' width='300'>
-                    <p>Nike Air (Women)</p>
-                    <p>Size 7</p>
-                    <p>Price £199.99</p>
-                    <button class="btn-add-to-cart" >Add to basket</button>
-                </div>
-                <div class='product_overlay'>
-                    <h2 >Added to basket</h2>
-                    <i class="fa-thin fa-cart-shopping"></i>
-                </div>
-            </div>
-            <div class='product--pink col-lg-3'>
-                <div class='product_inner'>
-                    <img th:src='@{louis-vuitton-nuoc-hoa-orage--LP0051_PM2_Front view.webp}' width='300'>
-                    <p>Nike Air (Women)</p>
-                    <p>Size 7</p>
-                    <p>Price £199.99</p>
-                    <button class="btn-add-to-cart" >Add to basket</button>
-                </div>
-                <div class='product_overlay'>
-                    <h2 >Added to basket</h2>
-                    <i class="fa-thin fa-cart-shopping"></i>
-                </div>
-            </div>
+
 
         </div>
         <div class="btn-box">
@@ -204,7 +169,7 @@
             </div>
             <div class="col-md-6">
                 <div class="img-box">
-                     <img th:src="@{about-img.png}" alt="">
+
                 </div>
             </div>
         </div>
@@ -220,7 +185,7 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="img-box">
-                     <img th:src="@{us-img.png}" alt="">
+
                 </div>
             </div>
             <div class="col-md-7">
@@ -290,17 +255,7 @@
             <div class="carousel-item active">
                 <div class="container">
                     <div class="img-box">
-                         <img th:src="@{store-img.jpg}" alt="">
-                    </div>
-                </div>
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>It is a long established fact that a reader will be distracted </h5>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="container">
-                    <div class="img-box">
-                         <img th:src="@{store-img.jpg}" alt="">
+
                     </div>
                 </div>
                 <div class="carousel-caption d-none d-md-block">
@@ -311,7 +266,17 @@
                 <div class="container">
                     <div class="img-box">
 
-                        <img th:src="@{store-img.jpg}" alt="">
+                    </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>It is a long established fact that a reader will be distracted </h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="img-box">
+
+
                     </div>
                 </div>
                 <div class="carousel-caption d-none d-md-block">
@@ -347,7 +312,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="img-box">
-                         <img th:src="@{b-1.jpg}" alt="">
+
                     </div>
                     <div class="detail-box">
                         <h3>
@@ -362,7 +327,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="img-box">
-                         <img th:src="@{b-2.jpg}" alt="">
+
                     </div>
                     <div class="detail-box">
                         <h3>
@@ -396,7 +361,7 @@
                         <div class="img_container">
                             <div class="img-box">
                                 <div class="img_box-inner">
-                                     <img th:src="@{client.jpg}" alt="">
+
                                 </div>
                             </div>
                         </div>
@@ -418,7 +383,7 @@
                         <div class="img_container">
                             <div class="img-box">
                                 <div class="img_box-inner">
-                                     <img th:src="@{client.jpg}" alt="">
+
                                 </div>
                             </div>
                         </div>
@@ -440,7 +405,7 @@
                         <div class="img_container">
                             <div class="img-box">
                                 <div class="img_box-inner">
-                                     <img th:src="@{client.jpg}" alt="">
+
                                 </div>
                             </div>
                         </div>
@@ -554,22 +519,22 @@
             <div class="info_social">
                 <div>
                     <a href="">
-                         <img th:src="@{facebook-logo-button.png}" alt="">
+
                     </a>
                 </div>
                 <div>
                     <a href="">
-                         <img th:src="@{twitter-logo-button.png}" alt="">
+
                     </a>
                 </div>
                 <div>
                     <a href="">
-                         <img th:src="@{linkedin.png}" alt="">
+
                     </a>
                 </div>
                 <div>
                     <a href="">
-                         <img th:src="@{instagram.png}" alt="">
+
                     </a>
                 </div>
             </div>
@@ -645,36 +610,24 @@
                 </h6>
                 <div class="info_link-box">
                     <a href="">
-                         <img th:src="@{location-white.png}" alt="">
-                        <span> No.123, loram ipusm</span>
+
+                    <span> No.123, loram ipusm</span>
                     </a>
                     <a href="">
-                         <img th:src="@{call-white.png}" alt="">
-                        <span>+01 12345678901</span>
+
+                    <span>+01 12345678901</span>
                     </a>
                     <a href="">
-                         <img th:src="@{mail-white.png}" alt="">
-                        <span> demo123@gmail.com</span>
+
+                    <span> demo123@gmail.com</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- end info section -->
-
-
-<!-- footer section -->
-
-<!-- end  footer section -->
-
-
-<script type="text/javascript" th:src="@{js/jquery-3.4.1.min.js}"></script>
-<script type="text/javascript" th:src="@{js/Home.js}"></script>
-
-
-
 </body>
-
 </html>
+<script type="text/javascript" th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script type="text/javascript" th:src="@{js/custom.js}"></script>
+<script type="text/javascript" th:src="@{js/Home.js}"></script>

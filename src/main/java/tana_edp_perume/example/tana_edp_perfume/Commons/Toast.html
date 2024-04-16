@@ -1,0 +1,16 @@
+<div th:fragment="info(message,duration)"
+     th:attr="x-init='setTimeout(() => $el.style.display = \'none\',' + ${duration} + ')'"
+     class="fixed bottom-10 z-40 left-1/2 -translate-x-1/2"
+     x-data="{}"
+     x-ref="info">
+    <div class="flex">
+        <div class="alert alert-info shadow-lg my-6">
+            <div>
+                <span th:text="${message}"></span>
+            </div>
+            <button @click="$refs.info.style.display = 'none'">
+                <img src="/svg/x-circle.svg">
+            </button>
+        </div>
+    </div>
+</div>

@@ -39,10 +39,15 @@
     align-items: center;
     flex-flow: column wrap;
 }
-.product_inner p {
-    color: rgba(255, 255, 255, 0.9);
+.product-name {
+    color:#233142;
+    font-size: 16px;
 }
-.product_inner button {
+.product-sku{
+    color:#233142;
+    font-size: 16px;
+}
+.product_inner a {
     border: 1px solid rgba(255, 255, 255, 0.5);
     color: #FFF;
     font-size: 15px;
@@ -53,18 +58,18 @@
     cursor: pointer;
     transition: background ease-in 0.25s;
 }
-.product_inner button:hover {
+.product_inner a:hover {
     background: white;
     color: #2B2D42;
 }
-.product_inner button:before {
+.product_inner a:before {
 
     color: #FFF;
     position: absolute;
     font-size: 1em;
     margin: 0 -1.5em;
 }
-.product_inner button:hover:before {
+.product_inner a:hover:before {
     color: #2B2D42;
 }
 .product_overlay {

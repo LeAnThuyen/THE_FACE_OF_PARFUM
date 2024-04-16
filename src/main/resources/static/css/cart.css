@@ -61,7 +61,7 @@
 }
 
 .number-input.number-input input[type=number] {
-    max-width: 4rem;
+
     padding: .5rem;
     border: 1px solid #ced4da;
     border-width: 0 1px;
@@ -85,7 +85,7 @@
 }
 
 .shopping-cart .def-number-input.number-input input[type=number] {
-    max-width: 2rem;
+
     border: none;
 }
 

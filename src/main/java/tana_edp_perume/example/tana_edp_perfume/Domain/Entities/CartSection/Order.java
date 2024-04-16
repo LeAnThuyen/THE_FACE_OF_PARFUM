@@ -25,6 +25,7 @@ public class Order {
     private long Id;
     private String Address;
     private String FullAddress;
+    private String FullName;
     private String PhoneNumber;
     private String Code;
     private Date ShippingDate;

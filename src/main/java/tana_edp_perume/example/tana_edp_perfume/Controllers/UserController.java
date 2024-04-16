@@ -17,13 +17,14 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserRepository _userRepository;
+
     @GetMapping("/users")
     public List<User> getAllEmployees() {
         return _userRepository.findAll();
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity< User > getEmployeeById(@PathVariable(value = "id") Long userId)
+    public ResponseEntity<User> getEmployeeById(@PathVariable(value = "id") Long userId)
             throws ResourceNotFoundException {
         User user = _userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
@@ -37,8 +38,8 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity < User > updateUser(@PathVariable(value = "id") Long userId,
-                                                      @Valid @RequestBody User userDetails) throws ResourceNotFoundException {
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
+                                           @Valid @RequestBody User userDetails) throws ResourceNotFoundException {
         User user = _userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
 
@@ -48,13 +49,13 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
-    public Map < String, Boolean > deleteUser(@PathVariable(value = "id") Long userId)
+    public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId)
             throws ResourceNotFoundException {
         User employee = _userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
 
         _userRepository.delete(employee);
-        Map< String, Boolean > response = new HashMap< >();
+        Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
     }
