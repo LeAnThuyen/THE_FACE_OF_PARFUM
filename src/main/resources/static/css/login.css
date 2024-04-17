@@ -73,7 +73,7 @@
 }
 
 .container.right-panel-active .container--signin {
-    transform: translateX(100%);
+    transform: translateX(0%);
 
 }
 
@@ -104,7 +104,7 @@
 }
 
 .container.right-panel-active .container__overlay {
-    transform: translateX(-100%);
+    transform: translateX(0%);
 }
 
 .overlay {
@@ -145,7 +145,7 @@
 }
 
 .container.right-panel-active .overlay--left {
-    transform: translateX(0);
+    transform: translateX(-100%);
 }
 
 .overlay--right {
@@ -154,7 +154,7 @@
 }
 
 .container.right-panel-active .overlay--right {
-    transform: translateX(20%);
+    transform: translateX(-100%);
 }
 
 .btn {

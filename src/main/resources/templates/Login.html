@@ -18,6 +18,20 @@
 <body class="login-body">
 <div class="container right-panel-active">
     <!-- Sign Up -->
+
+
+    <!-- Sign In -->
+    <div class="container__form container--signin">
+        <form class="form" >
+            <h2 class="form__title">Sign In</h2>
+            <h3 class="form__title branding-name"> TANA EDP
+                (THE FACE OF PERFUME)</h3>
+            <input type="email" placeholder="Email" id="EmailLogin" minlength="10" maxlength="225" required class="input" />
+            <input type="password" placeholder="Password" id="PasswordLogin" minlength="3" maxlength="50" required class="input" />
+            <a href="/Login" class="link">Forgot your password?</a>
+            <button class="btn" type="button" th:onclick="'javascript:CheckLogin();'">Sign In</button>
+        </form>
+    </div>
     <div class="container__form container--signup">
         <form action="#" class="form"  th:action="@{/SignUp}" th:object="${UserSignInAndSignUp}" method="POST">
             <h2 class="form__title">Sign Up</h2>
@@ -33,20 +47,6 @@
             <button  class="btn"  type="submit">Sign Up</button>
         </form>
     </div>
-
-    <!-- Sign In -->
-    <div class="container__form container--signin">
-        <form class="form" >
-            <h2 class="form__title">Sign In</h2>
-            <h3 class="form__title branding-name"> TANA EDP
-                (THE FACE OF PERFUME)</h3>
-            <input type="email" placeholder="Email" id="EmailLogin" minlength="10" maxlength="225" required class="input" />
-            <input type="password" placeholder="Password" id="PasswordLogin" minlength="3" maxlength="50" required class="input" />
-            <a href="/Login" class="link">Forgot your password?</a>
-            <button class="btn" type="button" th:onclick="'javascript:CheckLogin();'">Sign In</button>
-        </form>
-    </div>
-
     <!-- Overlay -->
     <div class="container__overlay">
         <div class="overlay">

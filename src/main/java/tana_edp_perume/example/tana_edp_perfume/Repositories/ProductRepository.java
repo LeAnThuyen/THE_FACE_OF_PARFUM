@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     String qurDetail= "select a.*,b.\"name\" as ingredient_name, c.\"name\" as incense_group_name,d.\"name\" as capacity_name  from \"tana_product\" a \n" +
             "inner join \"tana_ingredient\" b on a.\"ingredient_id\"= b.\"id\"\n" +
             "inner join \"tana_incense_group\" c on a.\"incense_group_id\"= c.\"id\"\n" +
-            "inner join \"tana_capacity\" d on a.\"capacity_id\"= d.\"id\" where a.\"id\" = :productId";
+            "inner join \"tana_capacity\" d on a.\"capacity_id\"= d.\"id\" where a.\"id\" =:productId";
     @Query(value = qurDetail,nativeQuery = true)
    ProductDTO FindProductById(@Param("productId") Long productId);
 

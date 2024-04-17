@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    String qur= "SELECT * from \"tana_order\" WHERE \"user_id\"=: userId AND \"status\"=0 AND ROWNUM=1;";
+    String qur= "SELECT * from \"tana_order\" WHERE \"user_id\"=:userId AND \"status\"=0 AND ROWNUM=1";
     @Query(value = qur,nativeQuery = true)
     Order FindOrderByUserIdAndStatus(@Param("userId") Long userId);
 }

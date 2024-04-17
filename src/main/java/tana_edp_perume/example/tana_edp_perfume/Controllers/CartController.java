@@ -95,8 +95,8 @@ import java.util.List;
                     // từng mua trước đó hay chưa nếu từng mua rồi thì cộng dồn số lượng lên
                     sessionGioHangCT.forEach(x -> {
                         //kiểm tra nếu sản phẩm trong giỏ hàng session đã từng mua thì sẽ dộng dồn số lượng
-                        if (_orderdetailRepository.CheckProductExisted(x.getProduct().getId(), x.getOrder().getId())) {
-                            _orderdetailRepository.UpdateQuantity(x.getProduct().getId(), x.getOrder().getId(), x.getQuantity());
+                        if (_orderdetailRepository.CheckProductExisted(x.getProduct().getId(), idGioHang)!=0) {
+                            _orderdetailRepository.UpdateQuantity(x.getProduct().getId(), idGioHang, x.getQuantity());
 
                         } else {
                             // nếu sản phẩm trong giỏ hàng session chưa
@@ -105,7 +105,7 @@ import java.util.List;
                             Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
                             gioHangCT.setId(x.getId());
                             gioHangCT.setPrice(x.getPrice());
-                            gioHangCT.setOrder_Id(x.getOrder().getId());
+                            gioHangCT.setOrder_Id(idGioHang);
                             gioHangCT.setProduct_Id(x.getProduct().getId());
                             gioHangCT.setQuantity(x.getQuantity());
                             gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
@@ -132,9 +132,9 @@ import java.util.List;
                             gioHangCT.setQuantity(x.getQuantity());
                             gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
                             gioHangCT.setStatus(false);
-                            gioHangCT.setProduct_Name(x.getImageUrl());
+                            gioHangCT.setProduct_Name(x.getProduct_Name());
                             gioHangCT.setSKU(x.getSKU());
-                            gioHangCT.setImageUrl(x.getImageUrl());
+                            gioHangCT.setImageUrl(x.getImage_Url());
                             lstgioHangCTDTO.add(gioHangCT);
                         });
 
@@ -154,9 +154,9 @@ import java.util.List;
                             gioHangCT.setQuantity(x.getQuantity());
                             gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
                             gioHangCT.setStatus(false);
-                            gioHangCT.setProduct_Name(x.getImageUrl());
+                            gioHangCT.setProduct_Name(x.getProduct_Name());
                             gioHangCT.setSKU(x.getSKU());
-                            gioHangCT.setImageUrl(x.getImageUrl());
+                            gioHangCT.setImageUrl(x.getImage_Url());
                             lstgioHangCTDTO.add(gioHangCT);
                         });
 

@@ -127,7 +127,7 @@ public class OrderController {
 
                     //kiểm tra xem trong giỏ hàng được luư trong database đã có sản phẩm này chưa nnếu có rồi thì số lượng sẽ cộng thêm 1
                     //nếu không có thì thêm mới sản phầm đó với số lượng là 1 vào trong giỏ hàng
-                    if (_orderdetailRepository.CheckProductExisted(id, thongtingiohangByUserId.getId())) {
+                    if (_orderdetailRepository.CheckProductExisted(id, thongtingiohangByUserId.getId())!=0) {
                         _orderdetailRepository.UpdateQuantity(id, thongtingiohangByUserId.getId(), 1);
                     }
                     else {
@@ -147,36 +147,68 @@ public class OrderController {
 
                     }
 
-                } else {
+                }
+                else {
                     //TH giỏ hàng không có dữ liệu
                     //lấy thông tin giỏ hàng chi tiết
                     var thongTinGioHangCT = (List<Order_Details>) session.getAttribute("userGioHangCT");
                     //lấy thông tin giỏ hàng
                     var thongTinGioHang = (Order) session.getAttribute("userGioHang");
-
-                    if (thongTinGioHangCT != null) {
                         //kiểm tra xem nếu không có dữ liệu giỏ hàng được luư trong database trước đây thì tiến hàng thêm mới
-                        if (_orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId) != null) {
+                    var OrderDb=_orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
+                    if (OrderDb==null) {
+                        if (thongTinGioHang==null){
                             User user = new User();
+                            user.setId((long)sessionUserId);
+                            GenerateCodeWithLength generateCodeWithLength = new GenerateCodeWithLength();
+                            Order order = new Order();
+                            order.setCode(generateCodeWithLength.GenerateCode(8));
+                            order.setId(new Date().getTime());
+                            order.setFullAddress("");
+                            order.setAddress("");
+                            order.setPhoneNumber("");
+                            order.setShippingDate(null);
+                            order.setStatus(0);
+                            order.setTotalAmount(0);
+                            order.setUser(user);
+                            //
+                            _orderRepository.save(order);
 
-                            thongTinGioHang.setUser(thongTinGioHang.getUser());
+                            var OrderCreated=  _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
+                            Order_Details gioHangCT = new Order_Details();
+                            gioHangCT.setPrice(productAdd.get().getPrice());
+                            gioHangCT.setQuantity(1);
+                            gioHangCT.setStatus(false);
+                            gioHangCT.setId(new Date().getTime());
+                            gioHangCT.setTotalAmount(productAdd.get().getPrice() * 1);
+                            gioHangCT.setProduct(productAdd.get());
+                            gioHangCT.setOrder(OrderCreated);
+                            //thêm sản phẩm vào giỏ hàng
+                            _orderdetailRepository.save(gioHangCT);
+
+                        }
+                        else  {
+                            User user = new User();
+                            user.setId((long)sessionUserId);
+                            thongTinGioHang.setUser(user);
                             _orderRepository.save(thongTinGioHang);
+                            //
+                            Order_Details gioHangCT = new Order_Details();
+                            gioHangCT.setPrice(productAdd.get().getPrice());
+                            gioHangCT.setQuantity(1);
+                            gioHangCT.setStatus(false);
+                            gioHangCT.setId(new Date().getTime());
+                            gioHangCT.setTotalAmount(productAdd.get().getPrice() * 1);
+                            gioHangCT.setProduct(productAdd.get());
+                            gioHangCT.setOrder(thongTinGioHang);
+                            //thêm sản phẩm vào giỏ hàng
+                            _orderdetailRepository.save(gioHangCT);
                         }
 
-
                     }
-                    Order_Details gioHangCT = new Order_Details();
-                    gioHangCT.setPrice(productAdd.get().getPrice());
-                    gioHangCT.setQuantity(1);
-                    gioHangCT.setStatus(false);
-                    gioHangCT.setId(new Date().getTime());
-                    gioHangCT.setTotalAmount(productAdd.get().getPrice() * 1);
-                    gioHangCT.setProduct(productAdd.get());
-                    Order order = new Order();
-                    order.setId(thongTinGioHang.getId());
-                    gioHangCT.setOrder(order);
-                    //thêm sản phẩm vào giỏ hàng
-                    _orderdetailRepository.save(gioHangCT);
+
+
+
 
                 }
 
