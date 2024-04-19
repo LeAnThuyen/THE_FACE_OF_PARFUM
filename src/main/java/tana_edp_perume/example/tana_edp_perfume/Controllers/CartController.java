@@ -17,6 +17,7 @@ import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderDetailReposito
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderRepository;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.ProductRepository;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,7 +79,7 @@ import java.util.List;
             return "Cart";
         } else {
             // trường hợp người dùng đã đăng nhập
-            var Id = session.getAttribute("UserId");
+            var Id =(Long) session.getAttribute("UserId");
             //kiểm tra xem khách hàng này đã mua sản phầm nào trước đos hay chưa nếu có thì tiếp tục kiểm tra
             //lúc người ta chưa đăng nhập có mua sản phẩm nào nữa không
             var oder = _orderRepository.FindOrderByUserIdAndStatus((long) Id);
@@ -243,6 +244,86 @@ import java.util.List;
             model.addAttribute("GioHangView",orderDTO);
             return "Cart";
         }
+    }
+
+
+    public String IncreaseQuantity(Long productId, int quantity,Model model) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession(true);
+        var sessionGioHang =(OrderDTO)  model.getAttribute("GioHangView");
+        //check số lượng còn lại
+        var userId =(Long) session.getAttribute("UserId");
+
+        var spCheck = _productRepository.findById(productId);
+
+            if (spCheck != null) {
+                var SpDetail=spCheck.get();
+                if (SpDetail.getQuantity() < quantity + 1)
+                {
+                    return  MessageFormat.format("Sản phẩm {0} chỉ còn {1} mặt hàng",spCheck.get().getName(),spCheck.get().getQuantity());
+
+                }
+                if (SpDetail.getQuantity()>0)
+                {
+                    sessionGioHang.getOrder_Detail_DTOS().forEach(c->{
+                        if (c.getProduct_Id()==productId){
+                            c.setQuantity(c.getQuantity()+1);
+                            c.setTotalAmount((c.getQuantity()+1)*c.getPrice());
+                        }
+                    });
+                    //neu user da dang nhap thi cap nhat lai so luong cho user
+                    if (userId!=null){
+                        _orderdetailRepository.UpdateQuantity(productId,sessionGioHang.getId(),1);
+                    }
+                    //set lai tong tien cho gio hang
+
+                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getPrice()).sum());
+                    session.setAttribute("GioHangView", sessionGioHang);
+                    model.addAttribute("GioHangView", sessionGioHang);
+                }
+
+                return "/Cart";
+            }
+        return  "Success";
+    }
+    public String DecreaseQuantity(Long productId, int quantity,Model model) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession(true);
+        var sessionGioHang =(OrderDTO)  model.getAttribute("GioHangView");
+        //check số lượng còn lại
+        var userId =(Long) session.getAttribute("UserId");
+
+        var spCheck = _productRepository.findById(productId);
+
+            if (spCheck != null) {
+                var SpDetail=spCheck.get();
+                if (SpDetail.getQuantity() < quantity -1)
+                {
+                    return  MessageFormat.format("Sản phẩm {0} chỉ còn {1} mặt hàng",spCheck.get().getName(),spCheck.get().getQuantity());
+
+                }
+                if (SpDetail.getQuantity()>0)
+                {
+                    sessionGioHang.getOrder_Detail_DTOS().forEach(c->{
+                        if (c.getProduct_Id()==productId){
+                            c.setQuantity(c.getQuantity()-1);
+                            c.setTotalAmount((c.getQuantity()-1)*c.getPrice());
+                        }
+                    });
+                    //neu user da dang nhap thi cap nhat lai so luong cho user
+                    if (userId!=null){
+                        _orderdetailRepository.UpdateQuantity(productId,sessionGioHang.getId(),-1);
+                    }
+                    //set lai tong tien cho gio hang
+
+                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getPrice()).sum());
+                    session.setAttribute("GioHangView", sessionGioHang);
+                    model.addAttribute("GioHangView", sessionGioHang);
+                }
+
+                return "/Cart";
+            }
+        return  "Success";
     }
 }
 

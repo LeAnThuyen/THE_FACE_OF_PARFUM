@@ -37,8 +37,6 @@ public class ProductController {
     public ProductDTO getProductById(@PathVariable(value = "id") Long productId)
             throws ResourceNotFoundException {
         var productStored = _productRepository.FindProductById(productId);
-
-
         //session
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);

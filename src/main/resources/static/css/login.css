@@ -103,8 +103,8 @@
     z-index: 100;
 }
 
-.container.right-panel-active .container__overlay {
-    transform: translateX(0%);
+.container.left-panel-active .container__overlay {
+    transform: translateX(-100%);
 }
 
 .overlay {
@@ -141,18 +141,18 @@
 }
 
 .overlay--left {
-    transform: translateX(-20%);
+
 }
 
-.container.right-panel-active .overlay--left {
-    transform: translateX(-100%);
-}
+
 
 .overlay--right {
     right: 0;
     transform: translateX(0);
 }
-
+.container.left-panel-active .overlay--left {
+    transform: translateX(-100%);
+}
 .container.right-panel-active .overlay--right {
     transform: translateX(-100%);
 }

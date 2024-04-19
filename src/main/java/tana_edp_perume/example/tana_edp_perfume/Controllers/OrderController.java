@@ -39,7 +39,6 @@ public class OrderController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);
 
-
         var sessionUser = session.getAttribute("User");
         var sessionUserId = session.getAttribute("UserId");
 
