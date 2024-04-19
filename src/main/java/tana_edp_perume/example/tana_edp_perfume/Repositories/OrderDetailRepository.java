@@ -27,6 +27,12 @@ public interface OrderDetailRepository extends JpaRepository<Order_Details, Long
     @Query(value = qurUpdateQuantity,nativeQuery = true)
     int UpdateQuantity(@Param("productId") Long productId,@Param("orderId") Long orderId,@Param("quantity") int quantity);
 
+    String qurUpdateQuantityByInput= "UPDATE \"tana_order_details\" SET \"quantity\"=:quantity, \"total_amount\"=(:quantity)* \"price\"  WHERE \"order_id\"=:orderId AND \"product_id\"=:productId AND \"status\"=0";
+    @Modifying
+    @Transactional
+    @Query(value = qurUpdateQuantityByInput,nativeQuery = true)
+    int UpdateQuantityByInput(@Param("productId") Long productId,@Param("orderId") Long orderId,@Param("quantity") int quantity);
+
     String qurGetListByOrderId= "SELECT a.*,b.\"name\" as Product_Name,b.\"sku\" AS SKU, b.\"image_url\" as Image_Url FROM \"tana_order_details\" a \n" +
             "INNER JOIN \"tana_product\" b on a.\"product_id\"=b.\"id\" \n" +
             "WHERE a.\"order_id\" =:orderId AND \"status\"=0";

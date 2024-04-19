@@ -32,6 +32,6 @@ signInBtn.addEventListener("click", () => {
 });
 
 signUpBtn.addEventListener("click", () => {
-    container.classList.add("left-panel-active");
+    container.classList.add("right-panel-active");
 });
 

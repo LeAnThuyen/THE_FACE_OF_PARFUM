@@ -104,12 +104,12 @@
                                             <div class="d-flex align-items-center">
                                                 <p class="fw-bold mb-0 me-5 pe-3">[[${#numbers.formatDecimal(cartItem.Price, 0, 'COMMA', 2, 'POINT')}]] VND</p>
                                                 <div class="def-number-input number-input safari_only">
-                                                    <span> <button onclick=""
-                                                                   class="minus"></button></span>
+                                                    <span> <button th:onclick="'javascript:DecreaseQuantity(\'' + ${cartItem.Product_Id} + '\',\'' + ${cartItem.Quantity} + '\');'"
+                                                                   class="minus" ></button></span>
 
-                                                    <span><input class="quantity fw-bold text-black" maxlength="3" pattern="[0-9]{1,5}" min="0" name="quantity" th:value="${cartItem.Quantity}"
+                                                    <span><input class="quantity fw-bold text-black" th:id="${cartItem.Product_Id}" th:onkeyup="'javascript:OnKeyUpQuantity(\'' + ${cartItem.Product_Id} + '\');'" maxlength="3" pattern="[0-9]{1,5}" min="0" name="quantity" th:value="${cartItem.Quantity}"
                                                                  type="number"></span>
-                                                    <span><button onclick=""
+                                                    <span><button th:onclick="'javascript:IncreaseQuantity(\'' + ${cartItem.Product_Id} + '\',\'' + ${cartItem.Quantity} + '\');'"
                                                                   class="plus"></button></span>
 
                                                 </div>
@@ -306,3 +306,4 @@
 <script type="text/javascript" th:src="@{js/jquery-3.4.1.min.js}"></script>
 
 <script type="text/javascript" th:src="@{js/custom.js}"></script>
+<script type="text/javascript" th:src="@{js/Cart.js}"></script>
