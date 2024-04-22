@@ -11,7 +11,6 @@ import java.util.List;
 public class OrderDTO implements Serializable {
     private long Id;
     private String Address;
-    private String FullAddress;
     private String FullName;
     private String PhoneNumber;
     private String Code;

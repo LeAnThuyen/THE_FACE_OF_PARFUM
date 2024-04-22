@@ -1,6 +1,8 @@
 package tana_edp_perume.example.tana_edp_perfume.Repositories;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +29,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "inner join \"tana_capacity\" d on a.\"capacity_id\"= d.\"id\" where a.\"id\" =:productId";
     @Query(value = qurDetail,nativeQuery = true)
    ProductDTO FindProductById(@Param("productId") Long productId);
+
+    String qurUpdate= "Update \"tana_product\" set \"quantity\"=\"quantity\"+ :quantity where \"id\"=:productId";
+    @Modifying
+    @Transactional
+    @Query(value = qurUpdate,nativeQuery = true)
+    int UpdateQuantity(@Param("productId") Long productId,@Param("quantity") int quantity);
 
 }

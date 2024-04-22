@@ -189,7 +189,7 @@ a:focus {
 .User_option .form-inline {
   position: relative;
   margin-right: 15px;
-  width: 200px;
+  width: 400px;
 }
 
 .User_option .form-inline input {
@@ -1130,6 +1130,10 @@ a:focus {
 }
 .slider-img {
 max-width: 800px;
+}
+.log-text {
+  margin-right: 15px;
+  cursor: pointer;
 }
 /* end footer section*/
 /*# sourceMappingURL=style.css.map */

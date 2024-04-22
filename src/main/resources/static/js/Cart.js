@@ -27,7 +27,7 @@ function IncreaseQuantity(proId, quantity, price) {
 
 function OnBlurQuantity(proId) {
 
-    var quantityVal=document.getElementById(proId).value;
+    var quantityVal = document.getElementById(proId).value;
     if (quantityVal != "") {
 
         $.ajax({
@@ -47,10 +47,6 @@ function OnBlurQuantity(proId) {
         });
 
     }
-
-
-
-
 }
 
 function DecreaseQuantity(proId, quantity, price) {
@@ -72,3 +68,36 @@ function DecreaseQuantity(proId, quantity, price) {
     });
 
 }
+
+function Payment() {
+    var fullNameVal = document.getElementById("FullName").value;
+    var phoneNumberVal = document.getElementById("PhoneNumber").value;
+    var addressVal = document.getElementById("Address").value;
+    var codeVal = document.getElementById("Code").value;
+    var shippingDateVal = document.getElementById("ShippingDate").value;
+    var noteVal = document.getElementById("Note").value;
+    var storedDataSend = {
+        "fullName": fullNameVal,
+        "phoneNumber": phoneNumberVal,
+        "address": addressVal,
+        "code": codeVal,
+        "shippingDate": shippingDateVal,
+        "note": noteVal
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: `Payment`,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(storedDataSend),
+        crossDomain: false,
+        async: true,
+        success: function (response) {
+
+            console.log(response)
+
+        }
+    });
+}
+
+

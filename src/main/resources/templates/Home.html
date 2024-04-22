@@ -41,10 +41,8 @@
                 </a>
                 <div class="" id="">
                     <div class="User_option">
-                        <form class="form-inline my-2  mb-3 mb-lg-0">
-                            <input type="search" placeholder="Search">
-                            <button class="btn   my-sm-0 nav_search-btn" type="submit"></button>
-                        </form>
+                        <span class="log-text" th:onclick="'javascript:Login();'" th:if="${UserId != null}">Logout: [[${UserName}]]</span>
+                        <span class="log-text" th:onclick="'javascript:Login();'"   th:if="${UserId == null}">Login</span>
                         <a href="/Cart">
                              <img th:src="@{bag.png}" alt="">
                         </a>

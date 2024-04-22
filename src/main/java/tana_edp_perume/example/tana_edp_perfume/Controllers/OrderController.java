@@ -86,7 +86,7 @@ public class OrderController {
                 Order order = new Order();
                 order.setCode(generateCodeWithLength.GenerateCode(8));
                 order.setId(new Date().getTime());
-                order.setFullAddress("");
+
                 order.setAddress("");
                 order.setPhoneNumber("");
                 order.setShippingDate(null);
@@ -163,7 +163,7 @@ public class OrderController {
                             Order order = new Order();
                             order.setCode(generateCodeWithLength.GenerateCode(8));
                             order.setId(new Date().getTime());
-                            order.setFullAddress("");
+
                             order.setAddress("");
                             order.setPhoneNumber("");
                             order.setShippingDate(null);

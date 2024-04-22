@@ -3,28 +3,20 @@ package tana_edp_perume.example.tana_edp_perfume.Controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import tana_edp_perume.example.tana_edp_perfume.Commons.GenerateCodeWithLength;
-import tana_edp_perume.example.tana_edp_perfume.Contracts.IOder_Detail_DTO;
+
 import tana_edp_perume.example.tana_edp_perfume.Contracts.OrderDTO;
-import tana_edp_perume.example.tana_edp_perfume.Contracts.Order_Detail_DTO;
-import tana_edp_perume.example.tana_edp_perfume.Contracts.StoredOderDTO;
-import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.CartSection.Order;
-import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.CartSection.Order_Details;
+
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderDetailRepository;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderRepository;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.ProductRepository;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 
 
 @RestController
@@ -157,6 +149,37 @@ import java.util.List;
 
                 return "Success";
             }
+        return  "Failed";
+    }
+    @RequestMapping(value="/Payment")
+    public String Payment(@RequestBody OrderDTO orderDTO) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession(true);
+        var sessionGioHang =(OrderDTO) session.getAttribute("GioHangView");
+        var sessionUserId =(long) session.getAttribute("UserId");
+        if (sessionUserId>0)
+        {
+            var GioHangUser = _orderRepository.FindOrderByUserIdAndStatus(sessionUserId);
+            var GioHangCTUser =_orderdetailRepository.GetListByOrderId(GioHangUser.getId());
+            GioHangUser.setAddress(orderDTO.getAddress());
+            GioHangUser.setFullName(orderDTO.getFullName());
+            GioHangUser.setShippingDate(orderDTO.getShippingDate());
+            GioHangUser.setStatus(1);// da thanh toan
+            GioHangUser.setTotalAmount(orderDTO.getTotalAmount());
+            GioHangUser.setNote(orderDTO.getNote());
+            GioHangUser.setPhoneNumber(orderDTO.getPhoneNumber());
+            GioHangUser.setTotalAmount(orderDTO.getTotalAmount());
+            //
+            sessionGioHang.getOrder_Detail_DTOS().forEach(c->{
+               _orderdetailRepository.UpdateQuantityByInput(c.getProduct_Id(),GioHangUser.getId(),c.getQuantity());
+               //giam so luong cua san pham
+                var checkPro=_productRepository.findById(c.getProduct_Id());
+                if(checkPro.get().getQuantity()>=c.getQuantity()){
+                    _productRepository.UpdateQuantity(c.getProduct_Id(),-c.getQuantity());
+                }
+            });
+            return  "Success";
+        }
         return  "Failed";
     }
 }
