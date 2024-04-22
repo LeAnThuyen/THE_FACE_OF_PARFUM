@@ -39,7 +39,7 @@ import java.util.List;
 
 
     @RequestMapping(value="/IncreaseQuantity/{productId}/{quantity}", method = RequestMethod.POST)
-    public String IncreaseQuantity(@PathVariable Long productId,@PathVariable int quantity, Model model,@RequestBody OrderDTO storedDataSend) {
+    public String IncreaseQuantity(@PathVariable Long productId,@PathVariable int quantity, Model model) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);
         var sessionGioHang =(OrderDTO)  session.getAttribute("GioHangView");
@@ -69,7 +69,7 @@ import java.util.List;
                     }
                     //set lai tong tien cho gio hang
 
-                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getPrice()).sum());
+                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getTotalAmount()).sum());
                     session.setAttribute("GioHangView", sessionGioHang);
                     model.addAttribute("GioHangView", sessionGioHang);
                 }
@@ -89,6 +89,7 @@ import java.util.List;
         var spCheck = _productRepository.findById(productId);
 
             if (spCheck != null) {
+                String finalAmount="";
                 var SpDetail=spCheck.get();
                 if (SpDetail.getQuantity() < quantity )
                 {
@@ -108,15 +109,15 @@ import java.util.List;
                         _orderdetailRepository.UpdateQuantityByInput(productId,sessionGioHang.getId(),quantity);
                     }
                     //set lai tong tien cho gio hang
-
-                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getPrice()).sum());
+                    finalAmount= Double.toString(sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c -> c.getTotalAmount()).sum());
+                    sessionGioHang.setTotalAmount(Float.parseFloat(finalAmount));
                     session.setAttribute("GioHangView", sessionGioHang);
                     model.addAttribute("GioHangView", sessionGioHang);
                 }
 
-                return "Success";
+                return  finalAmount;
             }
-        return  "Failed";
+        return  "0";
     }
     @RequestMapping(value="/DecreaseQuantity/{productId}/{quantity}")
     public String DecreaseQuantity(@PathVariable Long productId,@PathVariable int quantity,Model model) {
@@ -149,7 +150,7 @@ import java.util.List;
                     }
                     //set lai tong tien cho gio hang
 
-                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getPrice()).sum());
+                    sessionGioHang.setTotalAmount((float) sessionGioHang.getOrder_Detail_DTOS().stream().mapToDouble(c->c.getTotalAmount()).sum());
                     session.setAttribute("GioHangView", sessionGioHang);
                     model.addAttribute("GioHangView", sessionGioHang);
                 }

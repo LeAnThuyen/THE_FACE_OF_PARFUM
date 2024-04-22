@@ -1,46 +1,35 @@
-function IncreaseQuantity(proId, quantity) {
-    var fullNameVal=document.getElementById("FullName").value;
-    var phoneNumberVal=document.getElementById("PhoneNumber").value;
-    var addressVal=document.getElementById("Address").value;
-    var fullAddressVal=document.getElementById("FullAddress").value;
-    var codeVal=document.getElementById("Code").value;
-    var shippingDateVal=document.getElementById("ShippingDate").value;
-    var noteVal=document.getElementById("Note").value;
-    var storedDataSend= {"fullName":fullNameVal,"phoneNumber":phoneNumberVal,
-        "address":addressVal,"fullAddress":fullAddressVal,"code":codeVal,"shippingDate":shippingDateVal,"note":noteVal}
-    console.log(storedDataSend)
+$(document).ready(function () {
+    setTimeout(() => {
+        var total = document.getElementById("finalAmount");
+        $("#finalAmount").text(Number(total.innerText));
+    }, 100);
+
+});
+
+function IncreaseQuantity(proId, quantity, price) {
+
     $.ajax({
         type: 'POST',
         url: `IncreaseQuantity/${proId}/${quantity}`,
-        contentType: "application/json; charset=utf-8",
-        dataType : 'json',
-        data:JSON.stringify(storedDataSend),
+        contentType: 'text/plain',
         crossDomain: false,
         async: true,
         success: function (response) {
-
-                $.ajax({
-                    type: 'POST',
-                    url: `Cart`,
-                    contentType: 'text/plain',
-
-                    crossDomain: false,
-                    async: true,
-                    success: function (response) {
-
-                        window.location.reload();
-                    }
-                });
-
-
+            var quantityVal = document.getElementById(proId);
+            var total = document.getElementById("finalAmount");
+            quantityVal.value = Number(quantityVal.value) + 1;
+            $("#finalAmount").text(Number(total.innerText) + Number(price));
         }
     });
 
 
 }
-function OnKeyUpQuantity(proId) {
+
+function OnBlurQuantity(proId) {
+
     var quantityVal=document.getElementById(proId).value;
-    setTimeout(() => {
+    if (quantityVal != "") {
+
         $.ajax({
             type: 'POST',
             url: `OnKeyUpQuantity/${proId}/${quantityVal}`,
@@ -49,28 +38,22 @@ function OnKeyUpQuantity(proId) {
             async: true,
             success: function (response) {
 
-                $.ajax({
-                    type: 'POST',
-                    url: `Cart`,
-                    contentType: 'text/plain',
-                    crossDomain: false,
-                    async: true,
-                    success: function (response) {
-
-                        window.location.reload();
-                    }
-                });
-
+                if (response != '0') {
+                    $("#finalAmount").text(Number(response));
+                }
 
             }
+
         });
-    }, 500);
+
+    }
+
 
 
 
 }
 
-function DecreaseQuantity(proId, quantity) {
+function DecreaseQuantity(proId, quantity, price) {
 
     $.ajax({
         type: 'POST',
@@ -79,18 +62,11 @@ function DecreaseQuantity(proId, quantity) {
         crossDomain: false,
         async: true,
         success: function (response) {
+            var quantityVal = document.getElementById(proId);
+            var total = document.getElementById("finalAmount");
+            quantityVal.value = Number(quantityVal.value) - 1;
+            $("#finalAmount").text(Number(total.innerText) - Number(price));
 
-                $.ajax({
-                    type: 'POST',
-                    url: `Cart`,
-                    contentType: 'text/plain',
-                    crossDomain: false,
-                    async: true,
-                    success: function (response) {
-                        window.location.reload();
-
-                    }
-                });
 
         }
     });
