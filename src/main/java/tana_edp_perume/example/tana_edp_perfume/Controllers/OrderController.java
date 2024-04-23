@@ -58,7 +58,11 @@ public class OrderController {
                     if (sessionLstGioHangCT.stream().anyMatch(c -> c.getProduct().getId() == id))
                     {
                         listStreamGioHangCT.forEach(c -> {
-                            c.setQuantity(c.getQuantity() + 1);
+                            if (c.getProduct().getId()==id){
+
+                                c.setQuantity(c.getQuantity() + 1);
+                            }
+
                         });
                     }
                     else {

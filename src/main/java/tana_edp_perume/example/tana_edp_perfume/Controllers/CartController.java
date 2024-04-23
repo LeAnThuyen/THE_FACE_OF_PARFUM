@@ -168,7 +168,7 @@ import java.text.MessageFormat;
             GioHangUser.setTotalAmount(orderDTO.getTotalAmount());
             GioHangUser.setNote(orderDTO.getNote());
             GioHangUser.setPhoneNumber(orderDTO.getPhoneNumber());
-            GioHangUser.setTotalAmount(orderDTO.getTotalAmount());
+            GioHangUser.setTotalAmount(sessionGioHang.getTotalAmount());
             //
             sessionGioHang.getOrder_Detail_DTOS().forEach(c->{
                _orderdetailRepository.UpdateQuantityByInput(c.getProduct_Id(),GioHangUser.getId(),c.getQuantity());

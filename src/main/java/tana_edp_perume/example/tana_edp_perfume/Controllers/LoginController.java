@@ -31,7 +31,7 @@ public class LoginController {
         PasswordManager passwordManager = new PasswordManager();
         UserSignInAndSignUp.setPassword(passwordManager.HashedPassword(UserSignInAndSignUp.getPassword()));
         var res = _userRepository.save(UserSignInAndSignUp);
-        return "Login";
+        return "redirect:/Login";
     }
 
     @RequestMapping(value = "/CheckLogin/{email}/{password}")

@@ -129,7 +129,11 @@ public class RootController {
                 var sessionGioHangCT = (List<Order_Details>) session.getAttribute("userGioHangCT");
                 if (sessionGioHangCT != null) {
                     //convert giỏ hàng session về dạng list
-
+                    sessionGioHangCT.forEach(x->{
+                        Order orderSet= new Order ();
+                        orderSet.setId(idGioHang);
+                        x.setOrder(orderSet);
+                    });
                     // kiểm tra qua hết 1 lượt của giỏ hàng session xem có sản phẩm nào đã
                     // từng mua trước đó hay chưa nếu từng mua rồi thì cộng dồn số lượng lên
                     sessionGioHangCT.forEach(x -> {
@@ -163,18 +167,21 @@ public class RootController {
                     var lstGiohangCT = _orderdetailRepository.GetListByOrderId(oder.getId());
                     if (lstGiohangCT != null) {
                         lstGiohangCT.forEach(x -> {
-                            Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
-                            gioHangCT.setId(x.getId());
-                            gioHangCT.setPrice(x.getPrice());
-                            gioHangCT.setOrder_Id(x.getOrder_Id());
-                            gioHangCT.setProduct_Id(x.getProduct_Id());
-                            gioHangCT.setQuantity(x.getQuantity());
-                            gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
-                            gioHangCT.setStatus(false);
-                            gioHangCT.setProduct_Name(x.getProduct_Name());
-                            gioHangCT.setSKU(x.getSKU());
-                            gioHangCT.setImageUrl(x.getImage_Url());
-                            lstgioHangCTDTO.add(gioHangCT);
+                            if (lstgioHangCTDTO.stream().anyMatch(c->x.getProduct_Id()==x.getProduct_Id())==false){
+                                Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
+                                gioHangCT.setId(x.getId());
+                                gioHangCT.setPrice(x.getPrice());
+                                gioHangCT.setOrder_Id(x.getOrder_Id());
+                                gioHangCT.setProduct_Id(x.getProduct_Id());
+                                gioHangCT.setQuantity(x.getQuantity());
+                                gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
+                                gioHangCT.setStatus(false);
+                                gioHangCT.setProduct_Name(x.getProduct_Name());
+                                gioHangCT.setSKU(x.getSKU());
+                                gioHangCT.setImageUrl(x.getImage_Url());
+                                lstgioHangCTDTO.add(gioHangCT);
+                            }
+
                         });
 
                     }
@@ -266,6 +273,12 @@ public class RootController {
                 }
                 //kiểm tra xem giỏ hàng chi tiết session có dữ liệu hay không
                 if (sessionGioHangCT != null) {
+                    var oderForUser = _orderRepository.FindOrderByUserIdAndStatus((long) Id);
+                    sessionGioHangCT.forEach(x->{
+                        Order orderSet= new Order ();
+                        orderSet.setId(oderForUser.getId());
+                        x.setOrder(orderSet);
+                    });
                     sessionGioHangCT.forEach(x -> {
                         var ProductDetail = _productRepository.findById(x.getProduct().getId());
                         Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
