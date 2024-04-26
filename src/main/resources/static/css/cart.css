@@ -114,3 +114,14 @@ width: 80px;
 .shopping-cart .def-number-input.number-input button.plus:after {
     background-color: #4285f4;
 }
+
+.offcanvas {
+    width: 600px !important;    z-index: 10000000 !important;
+    z-index: 10000000 !important;
+}
+.pointer {
+    cursor: pointer;
+}
+.total-list {
+    color: #ff0f46;
+}

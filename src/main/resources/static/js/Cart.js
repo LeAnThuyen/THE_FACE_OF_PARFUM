@@ -2,7 +2,13 @@ $(document).ready(function () {
     setTimeout(() => {
         var total = document.getElementById("finalAmount");
         $("#finalAmount").text(Number(total.innerText));
+  var listTotal= document.querySelectorAll('.total-list');
+        for (let i = 0; i < listTotal.length; i++) {
+            listTotal[i].innerHTML=Number(listTotal[i].innerHTML).toString();
+        }
+     console.log(listTotal[0].innerHTML)
     }, 100);
+
 
 });
 

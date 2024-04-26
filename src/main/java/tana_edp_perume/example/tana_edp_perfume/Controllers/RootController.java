@@ -118,6 +118,8 @@ public class RootController {
         else {
             // trường hợp người dùng đã đăng nhập
             var Id =(Long) session.getAttribute("UserId");
+            var lstOrder = _orderRepository.GetListOrderByUserId((long) Id);
+            model.addAttribute("lstOrder", lstOrder);
             //kiểm tra xem khách hàng này đã mua sản phầm nào trước đos hay chưa nếu có thì tiếp tục kiểm tra
             //lúc người ta chưa đăng nhập có mua sản phẩm nào nữa không
             var oder = _orderRepository.FindOrderByUserIdAndStatus((long) Id);

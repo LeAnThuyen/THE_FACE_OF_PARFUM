@@ -12,7 +12,7 @@
     <meta name="author" content=""/>
 
     <title>Your Cart</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -140,7 +140,13 @@
                                 </div>
                                 <div class="col-lg-6 px-5 py-4">
 
-                                    <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Payment</h3>
+                                    <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Payment
+
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                                        >Show history payment</button>
+                                    </h3>
+
 
                                     <form class="mb-5" th:object="${GioHangView}">
 
@@ -306,11 +312,25 @@
     </div>
 </section>
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Your history payment </h5> <i class="bi bi-receipt"></i>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="alert alert-warning pointer" role="alert"  th:each="oderItem: ${lstOrder}">
+          <span>[[${oderItem.FullName}]]</span>
+          <span>( Code: [[${oderItem.Code}]]</span>
+            <span>|</span>
+          <span>ShippingDate: [[${oderItem.ShippingDate}]] )</span>
+          <div  class=" text-center">Total: <span class="total-list">[[${oderItem.TotalAmount}]]</span> VNĐ</div>
+        </div>
+    </div>
+</div>
 
 </body>
 
 </html>
 <script type="text/javascript" th:src="@{js/jquery-3.4.1.min.js}"></script>
-
 <script type="text/javascript" th:src="@{js/custom.js}"></script>
 <script type="text/javascript" th:src="@{js/Cart.js}"></script>
