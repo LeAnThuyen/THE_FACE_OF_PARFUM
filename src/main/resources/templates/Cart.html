@@ -319,11 +319,13 @@
     </div>
     <div class="offcanvas-body">
         <div class="alert alert-warning pointer" role="alert"  th:each="oderItem: ${lstOrder}">
+            <a  th:href="@{/Cart/{Code}(Code=${oderItem.Code})}">
           <span>[[${oderItem.FullName}]]</span>
           <span>( Code: [[${oderItem.Code}]]</span>
             <span>|</span>
           <span>ShippingDate: [[${oderItem.ShippingDate}]] )</span>
-          <div  class=" text-center">Total: <span class="total-list">[[${oderItem.TotalAmount}]]</span> VNĐ</div>
+          <div  class="text-center">Total: <span class="total-list">[[${oderItem.TotalAmount}]]</span> VNĐ</div>
+                </a>
         </div>
     </div>
 </div>

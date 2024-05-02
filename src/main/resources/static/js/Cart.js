@@ -2,11 +2,10 @@ $(document).ready(function () {
     setTimeout(() => {
         var total = document.getElementById("finalAmount");
         $("#finalAmount").text(Number(total.innerText));
-  var listTotal= document.querySelectorAll('.total-list');
+        var listTotal = document.querySelectorAll('.total-list');
         for (let i = 0; i < listTotal.length; i++) {
-            listTotal[i].innerHTML=Number(listTotal[i].innerHTML).toString();
+            listTotal[i].innerHTML = Number(listTotal[i].innerHTML).toString();
         }
-     console.log(listTotal[0].innerHTML)
     }, 100);
 
 
@@ -75,6 +74,7 @@ function DecreaseQuantity(proId, quantity, price) {
 
 }
 
+
 function Payment() {
     var fullNameVal = document.getElementById("FullName").value;
     var phoneNumberVal = document.getElementById("PhoneNumber").value;
@@ -106,7 +106,8 @@ function Payment() {
         }
     });
 }
-$(document).ready(function() { //DISABLED PAST DATES IN APPOINTMENT DATE
+
+$(document).ready(function () { //DISABLED PAST DATES IN APPOINTMENT DATE
     var dateToday = new Date();
     var month = dateToday.getMonth() + 1;
     var day = dateToday.getDate();
@@ -121,3 +122,17 @@ $(document).ready(function() { //DISABLED PAST DATES IN APPOINTMENT DATE
     $('#ShippingDate').attr('min', maxDate);
 });
 
+function ShowDetailOrder(code) {
+
+    $.ajax({
+        type: 'POST',
+        url: `Cart/${code}`,
+        contentType: 'text/plain',
+        crossDomain: false,
+        async: true,
+        success: function (response) {
+
+        }
+    });
+
+}
