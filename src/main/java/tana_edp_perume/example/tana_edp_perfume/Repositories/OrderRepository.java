@@ -20,6 +20,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query(value = qurLst,nativeQuery = true)
     List<Order> GetListOrderByUserId(@Param("userId") Long userId);
 
-
+    String qurDetail= "SELECT * from \"tana_order\" WHERE \"code\"=:Code";
+    @Query(value = qurDetail,nativeQuery = true)
+    Order FindOrderByCOde(@Param("Code") String Code);
 
 }

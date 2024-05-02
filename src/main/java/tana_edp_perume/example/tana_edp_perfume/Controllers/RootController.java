@@ -5,17 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tana_edp_perume.example.tana_edp_perfume.Commons.GenerateCodeWithLength;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.IOder_Detail_DTO;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.OrderDTO;
@@ -42,19 +37,21 @@ public class RootController {
     private OrderRepository _orderRepository;
     @Autowired
     private OrderDetailRepository _orderdetailRepository;
+
     @GetMapping("/")
-    public String HomePage(Model model){
+    public String HomePage(Model model) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);
-        var sessionUser =(User) session.getAttribute("User");
+        var sessionUser = (User) session.getAttribute("User");
         var sessionUserId = session.getAttribute("UserId");
-        if (sessionUserId!=null){
-            model.addAttribute("UserId",sessionUserId);
-            model.addAttribute("UserName",sessionUser.getEmail());
+        if (sessionUserId != null) {
+            model.addAttribute("UserId", sessionUserId);
+            model.addAttribute("UserName", sessionUser.getEmail());
         }
-        model.addAttribute("lstProduct",_productRepository.FindAllProduct());
-        return  "Home";
+        model.addAttribute("lstProduct", _productRepository.FindAllProduct());
+        return "Home";
     }
+
     @GetMapping("/Login")
     public String Login(Model model) {
         User user = new User();
@@ -67,11 +64,11 @@ public class RootController {
     public String YourCart(ModelMap model) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);
-        var sessionUser =(User) session.getAttribute("User");
+        var sessionUser = (User) session.getAttribute("User");
         var sessionUserId = session.getAttribute("UserId");
-        if (sessionUserId!=null){
-            model.addAttribute("UserId",sessionUserId);
-            model.addAttribute("UserName",sessionUser.getEmail());
+        if (sessionUserId != null) {
+            model.addAttribute("UserId", sessionUserId);
+            model.addAttribute("UserName", sessionUser.getEmail());
         }
         //
         //gioHangCTDTO là bao gồm các thông tin của 1 giỏ hàng bình
@@ -107,17 +104,16 @@ public class RootController {
             orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
             orderDTO.setCode(generateCodeWithLength.GenerateCode(12));
             lstgioHangCTDTO.forEach(c -> {
-                orderDTO.setTotalAmount(orderDTO.getTotalAmount()+c.getTotalAmount());
+                orderDTO.setTotalAmount(orderDTO.getTotalAmount() + c.getTotalAmount());
             });
             model.remove("GioHangView");
-            model.addAttribute("GioHangView",orderDTO);
+            model.addAttribute("GioHangView", orderDTO);
             session.setAttribute("GioHangView", orderDTO);
             return "Cart";
 
-        }
-        else {
+        } else {
             // trường hợp người dùng đã đăng nhập
-            var Id =(Long) session.getAttribute("UserId");
+            var Id = (Long) session.getAttribute("UserId");
             var lstOrder = _orderRepository.GetListOrderByUserId((long) Id);
             model.addAttribute("lstOrder", lstOrder);
             //kiểm tra xem khách hàng này đã mua sản phầm nào trước đos hay chưa nếu có thì tiếp tục kiểm tra
@@ -131,8 +127,8 @@ public class RootController {
                 var sessionGioHangCT = (List<Order_Details>) session.getAttribute("userGioHangCT");
                 if (sessionGioHangCT != null) {
                     //convert giỏ hàng session về dạng list
-                    sessionGioHangCT.forEach(x->{
-                        Order orderSet= new Order ();
+                    sessionGioHangCT.forEach(x -> {
+                        Order orderSet = new Order();
                         orderSet.setId(idGioHang);
                         x.setOrder(orderSet);
                     });
@@ -140,7 +136,7 @@ public class RootController {
                     // từng mua trước đó hay chưa nếu từng mua rồi thì cộng dồn số lượng lên
                     sessionGioHangCT.forEach(x -> {
                         //kiểm tra nếu sản phẩm trong giỏ hàng session đã từng mua thì sẽ dộng dồn số lượng
-                        if (_orderdetailRepository.CheckProductExisted(x.getProduct().getId(), idGioHang)!=0) {
+                        if (_orderdetailRepository.CheckProductExisted(x.getProduct().getId(), idGioHang) != 0) {
                             _orderdetailRepository.UpdateQuantity(x.getProduct().getId(), idGioHang, x.getQuantity());
 
                         } else {
@@ -169,7 +165,7 @@ public class RootController {
                     var lstGiohangCT = _orderdetailRepository.GetListByOrderId(oder.getId());
                     if (lstGiohangCT != null) {
                         lstGiohangCT.forEach(x -> {
-                            if (lstgioHangCTDTO.stream().anyMatch(c->x.getProduct_Id()==x.getProduct_Id())==false){
+                            if (lstgioHangCTDTO.stream().anyMatch(c -> x.getProduct_Id() == x.getProduct_Id()) == false) {
                                 Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
                                 gioHangCT.setId(x.getId());
                                 gioHangCT.setPrice(x.getPrice());
@@ -191,8 +187,8 @@ public class RootController {
 
                 } else {
 
-                    var lstGiohangCT =(List<IOder_Detail_DTO>) _orderdetailRepository.GetListByOrderId(oder.getId());
-                    if (lstGiohangCT!=null) {
+                    var lstGiohangCT = (List<IOder_Detail_DTO>) _orderdetailRepository.GetListByOrderId(oder.getId());
+                    if (lstGiohangCT != null) {
                         lstGiohangCT.forEach(x -> {
                             Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
                             gioHangCT.setId(x.getId());
@@ -216,33 +212,32 @@ public class RootController {
                 session.removeAttribute("userGioHang");
                 //
                 OrderDTO orderDTO = new OrderDTO();
-                var OrderFromDB=   _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
+                var OrderFromDB = _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
                 orderDTO.setId(OrderFromDB.getId());
                 orderDTO.setCode(OrderFromDB.getCode());
 
                 orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
 
                 lstgioHangCTDTO.forEach(c -> {
-                    orderDTO.setTotalAmount(orderDTO.getTotalAmount()+c.getTotalAmount());
+                    orderDTO.setTotalAmount(orderDTO.getTotalAmount() + c.getTotalAmount());
                 });
                 model.remove("GioHangView");
-                model.addAttribute("GioHangView",orderDTO);
+                model.addAttribute("GioHangView", orderDTO);
                 session.setAttribute("GioHangView", orderDTO);
                 return "Cart";
-            }
-            else {
+            } else {
                 //trường hợp trước đó người dùng chưa từng mua sản phẩm nào thì check xem giỏ hàng session của user
-                var OrderByUserId=   _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
+                var OrderByUserId = _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
                 //đó có dữ liệu không nếu có thì add thêm vào list đẻ hiển thị ra ngoài vjew
                 var sessionGioHang = (Order) session.getAttribute("userGioHang");
                 var sessionGioHangCT = (List<Order_Details>) session.getAttribute("userGioHangCT");
                 //check xem nếu người dùng đã có giỏ hàng session trước đó thì gán lại dữ liệu cho người dùng để thêm vào db
-                if (sessionGioHang != null || OrderByUserId==null) {
+                if (sessionGioHang != null || OrderByUserId == null) {
                     //lấy thông tin  của giỏ hàng session để thêm vào database
                     // gán lại Id của user cho giỏ hàng
                     if (OrderByUserId == null) {
                         Order order = new Order();
-                        if (OrderByUserId==null){
+                        if (OrderByUserId == null) {
                             GenerateCodeWithLength generateCodeWithLength = new GenerateCodeWithLength();
                             order.setCode(generateCodeWithLength.GenerateCode(8));
                             order.setId(new Date().getTime());
@@ -252,11 +247,10 @@ public class RootController {
                             order.setStatus(0);
                             order.setTotalAmount(0);
                             User user = new User();
-                            user.setId((long)sessionUserId);
+                            user.setId((long) sessionUserId);
                             order.setUser(user);
                             order.setNote("");
-                        }
-                        else {
+                        } else {
                             order.setCode(sessionGioHang.getCode());
                             order.setId(sessionGioHang.getId());
                             order.setAddress(sessionGioHang.getAddress());
@@ -266,7 +260,7 @@ public class RootController {
                             order.setTotalAmount(sessionGioHang.getTotalAmount());
                             order.setNote(sessionGioHang.getNote());
                             User user = new User();
-                            user.setId((long)sessionUserId);
+                            user.setId((long) sessionUserId);
                             order.setUser(user);
                         }
 
@@ -276,8 +270,8 @@ public class RootController {
                 //kiểm tra xem giỏ hàng chi tiết session có dữ liệu hay không
                 if (sessionGioHangCT != null) {
                     var oderForUser = _orderRepository.FindOrderByUserIdAndStatus((long) Id);
-                    sessionGioHangCT.forEach(x->{
-                        Order orderSet= new Order ();
+                    sessionGioHangCT.forEach(x -> {
+                        Order orderSet = new Order();
                         orderSet.setId(oderForUser.getId());
                         x.setOrder(orderSet);
                     });
@@ -311,22 +305,76 @@ public class RootController {
 
             // tinh tong tien
             OrderDTO orderDTO = new OrderDTO();
-            var OrderFromDB=   _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
+            var OrderFromDB = _orderRepository.FindOrderByUserIdAndStatus((long) sessionUserId);
             orderDTO.setId(OrderFromDB.getId());
             orderDTO.setCode(OrderFromDB.getCode());
 
             orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
 
             lstgioHangCTDTO.forEach(c -> {
-                orderDTO.setTotalAmount(orderDTO.getTotalAmount()+c.getTotalAmount());
+                orderDTO.setTotalAmount(orderDTO.getTotalAmount() + c.getTotalAmount());
             });
             model.remove("GioHangView");
-            model.addAttribute("GioHangView",orderDTO);
-            session.setAttribute("GioHangView",orderDTO);
+            model.addAttribute("GioHangView", orderDTO);
+            session.setAttribute("GioHangView", orderDTO);
 
             return "Cart";
         }
+    }
 
 
+    @GetMapping("/Cart/{Code}")
+    public String YourCart(ModelMap model, @PathVariable String Code) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession(true);
+        var sessionUser = (User) session.getAttribute("User");
+        var sessionUserId = session.getAttribute("UserId");
+        if (sessionUserId != null) {
+            model.addAttribute("UserId", sessionUserId);
+            model.addAttribute("UserName", sessionUser.getEmail());
+            var OrderFromDB= _orderRepository.FindOrderByCOde(Code);
+            OrderDTO orderDTO = new OrderDTO();
+
+            orderDTO.setId(OrderFromDB.getId());
+            orderDTO.setCode(OrderFromDB.getCode());
+            orderDTO.setUser_Id(OrderFromDB.getUser().getId());
+            orderDTO.setShippingDate(OrderFromDB.getShippingDate());
+            orderDTO.setNote(OrderFromDB.getNote());
+            orderDTO.setFullName(OrderFromDB.getFullName());
+            orderDTO.setPhoneNumber(OrderFromDB.getPhoneNumber());
+            orderDTO.setAddress(OrderFromDB.getAddress());
+            orderDTO.setTotalAmount(OrderFromDB.getTotalAmount());
+            List<Order_Detail_DTO> lstgioHangCTDTO = new ArrayList<>();
+
+            var listGioHang= _orderdetailRepository.GetListByOrderId(OrderFromDB.getId());
+            listGioHang.forEach(x -> {
+                var ProductDetail = _productRepository.findById(x.getProduct_Id());
+
+                Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
+                gioHangCT.setId(x.getId());
+                gioHangCT.setPrice(x.getPrice());
+                gioHangCT.setOrder_Id(x.getOrder().getId());
+                gioHangCT.setProduct_Id(x.getProduct().getId());
+                gioHangCT.setQuantity(x.getQuantity());
+                gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
+                gioHangCT.setStatus(false);
+                gioHangCT.setProduct_Name(x.get().getName());
+                gioHangCT.setSKU(ProductDetail.get().getSKU());
+                gioHangCT.setImageUrl(ProductDetail.get().getImageUrl());
+                //them va gio hang hien thi len view
+                lstgioHangCTDTO.add(gioHangCT);
+                // them vao database
+            });
+            orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
+
+            lstgioHangCTDTO.forEach(c -> {
+                orderDTO.setTotalAmount(orderDTO.getTotalAmount() + c.getTotalAmount());
+            });
+            model.remove("GioHangView");
+            model.addAttribute("GioHangView", orderDTO);
+            session.setAttribute("GioHangView", orderDTO);
+        }
+
+return  "";
     }
 }

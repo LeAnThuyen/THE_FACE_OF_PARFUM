@@ -35,7 +35,7 @@ public interface OrderDetailRepository extends JpaRepository<Order_Details, Long
 
     String qurGetListByOrderId= "SELECT a.*,b.\"name\" as Product_Name,b.\"sku\" AS SKU, b.\"image_url\" as Image_Url FROM \"tana_order_details\" a \n" +
             "INNER JOIN \"tana_product\" b on a.\"product_id\"=b.\"id\" \n" +
-            "WHERE a.\"order_id\" =:orderId AND \"status\"=0";
+            "WHERE a.\"order_id\" =:orderId";
     @Query(value = qurGetListByOrderId,nativeQuery = true)
     List<IOder_Detail_DTO> GetListByOrderId(@Param("orderId") Long orderId);
 
