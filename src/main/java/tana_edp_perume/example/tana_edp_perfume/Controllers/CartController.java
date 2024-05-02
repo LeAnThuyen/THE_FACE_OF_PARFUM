@@ -177,18 +177,7 @@ public class CartController {
         return "Failed";
     }
 
-    @GetMapping(value = "/ListOrderPaid")
-    public String ListOrderPaid(Model model) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(true);
-        var sessionUserId = (long) session.getAttribute("UserId");
-        if (sessionUserId > 0) {
-            var lstOrder = _orderRepository.GetListOrderByUserId(sessionUserId);
-            model.addAttribute("lstOrder", lstOrder);
-            return "Success";
-        }
-        return "Failed";
-    }
+
 }
 
 
