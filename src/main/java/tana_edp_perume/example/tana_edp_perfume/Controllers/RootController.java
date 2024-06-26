@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import tana_edp_perume.example.tana_edp_perfume.Commons.GenerateCodeWithLength;
@@ -60,7 +61,7 @@ public class RootController {
     }
 
 
-    @GetMapping("/Cart")
+    @GetMapping("/Cart/{Code}")
     public String YourCart(ModelMap model) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);
@@ -323,7 +324,7 @@ public class RootController {
     }
 
 
-    @GetMapping("/Cart/{Code}")
+    @PostMapping("/Cart/{Code}")
     public String YourCart(ModelMap model, @PathVariable String Code) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);
@@ -332,7 +333,10 @@ public class RootController {
         if (sessionUserId != null) {
             model.addAttribute("UserId", sessionUserId);
             model.addAttribute("UserName", sessionUser.getEmail());
-            var OrderFromDB= _orderRepository.FindOrderByCOde(Code);
+
+            var lstOrder = _orderRepository.GetListOrderByUserId((long) sessionUserId);
+            model.addAttribute("lstOrder", lstOrder);
+            var OrderFromDB = _orderRepository.FindOrderByCOde(Code);
             OrderDTO orderDTO = new OrderDTO();
 
             orderDTO.setId(OrderFromDB.getId());
@@ -344,30 +348,30 @@ public class RootController {
             orderDTO.setPhoneNumber(OrderFromDB.getPhoneNumber());
             orderDTO.setAddress(OrderFromDB.getAddress());
             orderDTO.setTotalAmount(OrderFromDB.getTotalAmount());
-            List<Order_Detail_DTO> lstgioHangCTDTO = new ArrayList<>();
+            List<Order_Detail_DTO> lstGioHangCTDTO = new ArrayList<>();
 
-            var listGioHang= _orderdetailRepository.GetListByOrderId(OrderFromDB.getId());
+            var listGioHang = _orderdetailRepository.GetListByOrderId(OrderFromDB.getId());
             listGioHang.forEach(x -> {
                 var ProductDetail = _productRepository.findById(x.getProduct_Id());
 
                 Order_Detail_DTO gioHangCT = new Order_Detail_DTO();
                 gioHangCT.setId(x.getId());
                 gioHangCT.setPrice(x.getPrice());
-                gioHangCT.setOrder_Id(x.getOrder().getId());
-                gioHangCT.setProduct_Id(x.getProduct().getId());
+                gioHangCT.setOrder_Id(x.getOrder_Id());
+                gioHangCT.setProduct_Id(x.getProduct_Id());
                 gioHangCT.setQuantity(x.getQuantity());
                 gioHangCT.setTotalAmount(x.getQuantity() * x.getPrice());
                 gioHangCT.setStatus(false);
-                gioHangCT.setProduct_Name(x.get().getName());
+                gioHangCT.setProduct_Name(x.getProduct_Name());
                 gioHangCT.setSKU(ProductDetail.get().getSKU());
                 gioHangCT.setImageUrl(ProductDetail.get().getImageUrl());
                 //them va gio hang hien thi len view
-                lstgioHangCTDTO.add(gioHangCT);
+                lstGioHangCTDTO.add(gioHangCT);
                 // them vao database
             });
-            orderDTO.setOrder_Detail_DTOS(lstgioHangCTDTO);
+            orderDTO.setOrder_Detail_DTOS(lstGioHangCTDTO);
 
-            lstgioHangCTDTO.forEach(c -> {
+            lstGioHangCTDTO.forEach(c -> {
                 orderDTO.setTotalAmount(orderDTO.getTotalAmount() + c.getTotalAmount());
             });
             model.remove("GioHangView");
@@ -375,6 +379,6 @@ public class RootController {
             session.setAttribute("GioHangView", orderDTO);
         }
 
-return  "";
+        return "Cart";
     }
 }
