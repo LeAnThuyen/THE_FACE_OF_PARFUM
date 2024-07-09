@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import tana_edp_perume.example.tana_edp_perfume.Commons.GenerateCodeWithLength;
+import tana_edp_perume.example.tana_edp_perfume.Contracts.CreateUpdateProductDTO;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.IOder_Detail_DTO;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.OrderDTO;
 import tana_edp_perume.example.tana_edp_perfume.Contracts.Order_Detail_DTO;
 import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.CartSection.Order;
 import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.CartSection.Order_Details;
+import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.ProductSection.Product;
 import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.UserSection.User;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderDetailRepository;
 import tana_edp_perume.example.tana_edp_perfume.Repositories.OrderRepository;
@@ -52,6 +54,20 @@ public class RootController {
         model.addAttribute("lstProduct", _productRepository.FindAllProduct());
         return "Home";
     }
+@GetMapping("/create-product")
+    public String CreateProductPage(Model model) {
+    CreateUpdateProductDTO productDTO = new CreateUpdateProductDTO();
+//    productDTO.setCapacityDTO(_productRepository.getListCapacity());
+//    productDTO.setIngredientDTO(_productRepository.getListIngredient());
+//    productDTO.setIncenseGroupDTO(_productRepository.getListIncenseGroup());
+//    productDTO.setCategoryDTO(_productRepository.getListCategory());
+    model.addAttribute("CapacityDTO", _productRepository.getListCapacity());
+    model.addAttribute("IngredientDTO", _productRepository.getListIngredient());
+    model.addAttribute("IncenseGroupDTO", _productRepository.getListIncenseGroup());
+    model.addAttribute("CategoryDTO", _productRepository.getListCategory());
+    model.addAttribute("CreateProduct", productDTO);
+        return "ProductPage";
+    }
 
     @GetMapping("/Login")
     public String Login(Model model) {
@@ -61,7 +77,7 @@ public class RootController {
     }
 
 
-    @GetMapping("/Cart/{Code}")
+    @GetMapping("/Cart")
     public String YourCart(ModelMap model) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession(true);

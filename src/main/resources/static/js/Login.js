@@ -20,7 +20,10 @@ function CheckLogin() {
 
     });
 }
-
+function SignUp(){
+    alert("User created successfully!");
+    signInBtn.click();
+}
 
 const signInBtn = document.getElementById("signIn");
 const signUpBtn = document.getElementById("signUp");

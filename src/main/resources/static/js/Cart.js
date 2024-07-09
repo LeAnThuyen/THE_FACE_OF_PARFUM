@@ -12,18 +12,28 @@ $(document).ready(function () {
 });
 
 function IncreaseQuantity(proId, quantity, price) {
-
+    var quantityVal = document.getElementById(proId);
     $.ajax({
         type: 'POST',
-        url: `IncreaseQuantity/${proId}/${quantity}`,
+        url: `IncreaseQuantity/${proId}/${quantityVal.value}`,
         contentType: 'text/plain',
         crossDomain: false,
         async: true,
         success: function (response) {
-            var quantityVal = document.getElementById(proId);
-            var total = document.getElementById("finalAmount");
-            quantityVal.value = Number(quantityVal.value) + 1;
-            $("#finalAmount").text(Number(total.innerText) + Number(price));
+            console.log(response);
+            if (response=="Success") {
+                var quantityVal = document.getElementById(proId);
+                var total = document.getElementById("finalAmount");
+                quantityVal.value = Number(quantityVal.value) + 1;
+                $("#finalAmount").text(Number(total.innerText) + Number(price));
+            }
+            else {
+                var quantityVal = document.getElementById(proId);
+                var total = document.getElementById("finalAmount");
+                quantityVal.value = 1;
+               // $("#finalAmount").text(Number(total.innerText) + Number(price));
+            }
+
         }
     });
 
@@ -43,11 +53,18 @@ function OnBlurQuantity(proId) {
             async: true,
             success: function (response) {
 
-                if (response != '0') {
+                if (response != '0' && !response.includes('Sản phẩm')) {
                     $("#finalAmount").text(Number(response));
                 }
+                else {
+                        var quantityVal = document.getElementById(proId);
+                        var total = document.getElementById("finalAmount");
+                        quantityVal.value = 1;
+                        // $("#finalAmount").text(Number(total.innerText) + Number(price));
+                    }
+                }
 
-            }
+
 
         });
 
@@ -63,6 +80,7 @@ function DecreaseQuantity(proId, quantity, price) {
         crossDomain: false,
         async: true,
         success: function (response) {
+            console.log(response)
             var quantityVal = document.getElementById(proId);
             var total = document.getElementById("finalAmount");
             quantityVal.value = Number(quantityVal.value) - 1;
@@ -100,7 +118,7 @@ function Payment() {
         async: true,
         success: function (response) {
 
-
+alert("Payment successfully");
             window.location.reload();
 
         }

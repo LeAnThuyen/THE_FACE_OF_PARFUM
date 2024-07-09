@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import tana_edp_perume.example.tana_edp_perfume.Contracts.ProductDTO;
+import tana_edp_perume.example.tana_edp_perfume.Contracts.*;
 import tana_edp_perume.example.tana_edp_perfume.Domain.Entities.ProductSection.Product;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -35,5 +36,35 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Transactional
     @Query(value = qurUpdate,nativeQuery = true)
     int UpdateQuantity(@Param("productId") Long productId,@Param("quantity") int quantity);
+
+
+    String qurIngredient= "select \"id\",\"name\" from \"tana_ingredient\"";
+    @Query(value = qurIngredient,nativeQuery = true)
+    Collection<IngredientDTO> getListIngredient();
+
+    String qurCapacity= "select \"id\",\"name\" from \"tana_capacity\"";
+    @Query(value = qurCapacity,nativeQuery = true)
+    Collection<CapacityDTO> getListCapacity();
+
+    String qurIncenseGroup= "select \"id\",\"name\" from \"tana_incense_group\"";
+    @Query(value = qurIncenseGroup,nativeQuery = true)
+    Collection<IncenseGroupDTO> getListIncenseGroup();
+
+    String qurCategory= "select \"id\",\"name\" from \"tana_category\"";
+    @Query(value = qurCategory,nativeQuery = true)
+    Collection<CategoryDTO> getListCategory();
+
+//    String qurCreate= "insert into \"tana_product\" (\"id\",\"name\",\"price\",\"quantity\",\"sku\",\"image_url\",\"capacity_id\",\"incense_group_id\",\"ingredient_id\")\n" +
+//            "values(:productId,:productName,:price,:quantity,:sku',:image_url,:capacity_id,:incense_group_id,:ingredient_id)";
+//    @Modifying
+//    @Transactional
+//    @Query(value = qurCreate,nativeQuery = true)
+//    int CreateProduct(@Param("productId") int productId,@Param("productName") String productName,@Param("quantity") int quantity,
+//                      @Param("price") int price,@Param("sku") String sku,
+//                      @Param("image_url") String image_url,@Param("capacity_id") int capacity_id,
+//                      @Param("incense_group_id") int incense_group_id,@Param("ingredient_id") int ingredient_id);
+
+
+
 
 }

@@ -45,7 +45,7 @@
             crossDomain: false,
             async:true,
             success:function(response) {
-
+alert("Add to basket successfully");
 
             }
         });
